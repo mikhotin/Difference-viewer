@@ -1,13 +1,19 @@
-import commander from 'commander';
 import _ from 'lodash';
+import path from 'path';
+import fs from 'fs';
 
-const fs = require('fs');
+const parse = (file) => JSON.parse(file);
 
-const parse = (file, func) => func(file);
+const genDiff = (filepath1, filepath2) => {
+  const fullPath1 = path.resolve(process.cwd(), filepath1);
+  const data1 = fs.readFileSync(fullPath1, 'utf-8');
 
-const genDiff = (pathToFile1, pathToFile2) => {
-  const file1 = parse(pathToFile1, JSON.parse);
-  const file2 = parse(pathToFile2, JSON.parse);
+  const fullPath2 = path.resolve(process.cwd(), filepath2);
+  const data2 = fs.readFileSync(fullPath2, 'utf-8');
+
+  const file1 = parse(data1);
+  const file2 = parse(data2);
+
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
   const uniqColl = _.uniq([...keys1, ...keys2]);
@@ -37,21 +43,4 @@ const genDiff = (pathToFile1, pathToFile2) => {
 }`;
 };
 
-const pathToFile1 = fs.readFileSync('./before.json', 'utf8');
-const pathToFile2 = fs.readFileSync('./after.json', 'utf8');
-
-const makeProgram = () => {
-  const program = new commander.Command();
-  program
-    .version('0.0.1')
-    .description('Compares two configuration files and shows a difference.')
-    .arguments('<firstConfig> <secondConfig>')
-    .option('-f --format [type]', 'output format');
-
-  program
-    .action(() => console.log(genDiff(pathToFile1, pathToFile2)));
-
-  program.parse(process.argv);
-};
-
-export default makeProgram;
+export default genDiff;
