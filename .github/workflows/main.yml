@@ -9,4 +9,4 @@ jobs:
 
     steps:
       - name: install packages
-        run: make install
+        run: npm install

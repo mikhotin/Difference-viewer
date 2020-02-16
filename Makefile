@@ -8,4 +8,4 @@ test:
 	npx babel-node src/bin/gendiff.js
 
 install:
-	npm link
+	npm install
