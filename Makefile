@@ -6,3 +6,6 @@ publish:
 
 test:
 	npx babel-node src/bin/gendiff.js
+
+install:
+	npm install
