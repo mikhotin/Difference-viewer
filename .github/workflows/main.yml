@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: install packages
         run: |
-        make install
-        make lint
-        make test
+          make install
+          make lint
+          make test
