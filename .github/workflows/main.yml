@@ -10,4 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: install packages
-        run: make install
+        run: |
+        make install
+        make lint
+        make test
