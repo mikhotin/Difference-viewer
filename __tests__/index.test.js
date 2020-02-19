@@ -14,4 +14,5 @@ const data = `{
 
 test('diff', () => {
   expect(genDiff(getFixturePath('before.json'), getFixturePath('after.json'))).toEqual(data);
+  expect(genDiff(getFixturePath('after.json'), getFixturePath('before.json'))).not.toEqual(data);
 });
