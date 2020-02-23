@@ -22,13 +22,13 @@ const genDiff = (filepath1, filepath2) => {
   const keys2 = Object.keys(file2);
   const uniqColl = _.uniq([...keys1, ...keys2]);
   const diff = uniqColl.reduce((acc, key) => {
-    if ((keys1.includes(key) && keys2.includes(key)) && (file1[key] === file2[key])) {
-      acc.push(`${key}: ${file1[key]}`);
-    }
-
-    if ((keys1.includes(key) && keys2.includes(key)) && (file1[key] !== file2[key])) {
-      acc.push(`+ ${key}: ${file2[key]}`);
-      acc.push(`- ${key}: ${file1[key]}`);
+    if ((keys1.includes(key) && keys2.includes(key))) {
+      if ((file1[key] === file2[key])) {
+        acc.push(`${key}: ${file1[key]}`);
+      } else {
+        acc.push(`+ ${key}: ${file2[key]}`);
+        acc.push(`- ${key}: ${file1[key]}`);
+      }
     }
 
     if ((keys1.includes(key) && !keys2.includes(key))) {
