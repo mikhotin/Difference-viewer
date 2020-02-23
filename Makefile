@@ -5,7 +5,7 @@ publish:
 	npm publish --dry-run
 
 test:
-	npx jest index.test.js --coverage
+	npx jest index.test.js
 
 install:
 	npm install

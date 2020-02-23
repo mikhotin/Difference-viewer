@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx jest index.test.js --coverage",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
@@ -26,7 +26,8 @@
   "homepage": "https://github.com/AlexanderGJJ/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^4.1.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "js-yaml": "^3.13.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

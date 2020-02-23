@@ -12,7 +12,12 @@ const data = `{
 + verbose: true
 }`;
 
-test('diff', () => {
+test('diff json', () => {
   expect(genDiff(getFixturePath('before.json'), getFixturePath('after.json'))).toEqual(data);
   expect(genDiff(getFixturePath('after.json'), getFixturePath('before.json'))).not.toEqual(data);
+});
+
+test('diff yaml', () => {
+  expect(genDiff(getFixturePath('before.yaml'), getFixturePath('after.yaml'))).toEqual(data);
+  expect(genDiff(getFixturePath('after.yaml'), getFixturePath('before.yaml'))).not.toEqual(data);
 });
