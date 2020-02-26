@@ -21,3 +21,8 @@ test('diff yaml', () => {
   expect(genDiff(getFixturePath('before.yaml'), getFixturePath('after.yaml'))).toEqual(data);
   expect(genDiff(getFixturePath('after.yaml'), getFixturePath('before.yaml'))).not.toEqual(data);
 });
+
+test('diff ini', () => {
+  expect(genDiff(getFixturePath('before.ini'), getFixturePath('after.ini'))).toEqual(data);
+  expect(genDiff(getFixturePath('after.ini'), getFixturePath('before.ini'))).not.toEqual(data);
+});
