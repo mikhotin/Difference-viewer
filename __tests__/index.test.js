@@ -4,25 +4,48 @@ import genDiff from '../src';
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 const data = `{
-  host: hexlet.io
-+ timeout: 20
-- timeout: 50
-- proxy: 123.234.53.22
-- follow: false
-+ verbose: true
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      + setting3: {
+            key: value
+        }
+      - setting3: true
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      + baz: bars
+      - baz: bas
+        foo: bar
+      + nest: str
+      - nest: {
+            key: value
+        }
+    }
+  - group2: {
+        abc: 12345
+    }
+  + group3: {
+        fee: 100500
+    }
 }`;
 
 test('diff json', () => {
   expect(genDiff(getFixturePath('before.json'), getFixturePath('after.json'))).toEqual(data);
-  expect(genDiff(getFixturePath('after.json'), getFixturePath('before.json'))).not.toEqual(data);
 });
 
 test('diff yaml', () => {
   expect(genDiff(getFixturePath('before.yaml'), getFixturePath('after.yaml'))).toEqual(data);
-  expect(genDiff(getFixturePath('after.yaml'), getFixturePath('before.yaml'))).not.toEqual(data);
 });
 
 test('diff ini', () => {
   expect(genDiff(getFixturePath('before.ini'), getFixturePath('after.ini'))).toEqual(data);
-  expect(genDiff(getFixturePath('after.ini'), getFixturePath('before.ini'))).not.toEqual(data);
 });
