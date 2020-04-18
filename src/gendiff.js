@@ -36,7 +36,7 @@ const createAst = (obj1, obj2) => {
   return ast;
 };
 
-const genDiff = (filepath1, filepath2, outType = 'nested') => {
+const genDiff = (filepath1, filepath2, formatType = 'nested') => {
   const firstFiile = readFile(getFullPath(filepath1));
   const secondFile = readFile(getFullPath(filepath2));
   const extensionFirstFile = path.extname(getFullPath(filepath1)).slice(1);
@@ -46,7 +46,7 @@ const genDiff = (filepath1, filepath2, outType = 'nested') => {
   const data2 = parse(secondFile, extensionSecondFile);
   const data = createAst(data1, data2);
 
-  return format(data, outType);
+  return format(data, formatType);
 };
 
 export default genDiff;

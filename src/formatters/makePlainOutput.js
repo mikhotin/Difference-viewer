@@ -11,23 +11,12 @@ const makeStr = (obj, type, path) => {
     return val;
   };
   const { value, beforeValue } = obj;
-  let str;
-  switch (type) {
-    case 'unchanged':
-      break;
-    case 'changed':
-      str = `Property '${path}' was ${type} from ${formatValue(beforeValue)} to ${formatValue(value)}`;
-      break;
-    case 'deleted':
-      str = `Property '${path}' was ${type}`;
-      break;
-    case 'added':
-      str = `Property '${path}' was ${type} with value: ${formatValue(value)}`;
-      break;
-    default:
-      throw new Error(`Unknown type: ${type}!`);
-  }
-  return str;
+  const str = {
+    changed: `Property '${path}' was ${type} from ${formatValue(beforeValue)} to ${formatValue(value)}`,
+    deleted: `Property '${path}' was ${type}`,
+    added: `Property '${path}' was ${type} with value: ${formatValue(value)}`,
+  };
+  return str[type];
 };
 
 const makePlainOutput = (ast) => {

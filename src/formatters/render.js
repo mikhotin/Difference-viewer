@@ -5,21 +5,13 @@ const makeWhitespaces = (type, deep) => {
     return ' '.repeat(deep * 4);
   }
 
-  let whiteSpacesCount;
-  switch (deep) {
-    case 1:
-      whiteSpacesCount = 2;
-      break;
-    case 2:
-      whiteSpacesCount = 6;
-      break;
-    case 3:
-      whiteSpacesCount = 10;
-      break;
-    default:
-      whiteSpacesCount = 0;
-  }
-  return ' '.repeat(whiteSpacesCount);
+  const whiteSpacesCount = {
+    1: 2,
+    2: 6,
+    3: 10,
+  };
+
+  return ' '.repeat(whiteSpacesCount[deep]);
 };
 
 const stringify = (param, deep) => {
