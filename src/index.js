@@ -14,31 +14,20 @@ const createAst = (obj1, obj2) => {
   const ast = uniqKeys.reduce((acc, key) => {
     if (hasKeyBoth(obj1, obj2, key)) {
       if (isValueObject(obj1, obj2, key)) {
-        acc.push({
-          type: 'unchanged', subtype: 'node', key, children: createAst(obj1[key], obj2[key]),
-        });
+        acc.push({ type: 'unchanged', key, children: createAst(obj1[key], obj2[key]) });
       } else if (hasEqualsValue(obj1, obj2, key)) {
-        acc.push({
-          type: 'unchanged', key, value: obj1[key],
-        });
+        acc.push({ type: 'unchanged', key, value: obj1[key] });
       } else {
         acc.push({
-          type: 'changed-after', key, value: obj2[key],
-        });
-        acc.push({
-          type: 'changed-before', key, value: obj1[key],
+          type: 'changed', key, value: obj2[key], beforeValue: obj1[key],
         });
       }
     } else {
       if ((_.has(obj1, key) && !_.has(obj2, key))) {
-        acc.push({
-          type: 'deleted', key, value: obj1[key],
-        });
+        acc.push({ type: 'deleted', key, value: obj1[key] });
       }
       if ((!_.has(obj1, key) && _.has(obj2, key))) {
-        acc.push({
-          type: 'added', key, value: obj2[key],
-        });
+        acc.push({ type: 'added', key, value: obj2[key] });
       }
     }
     return acc;
