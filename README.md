@@ -10,11 +10,18 @@
 <h3>Примеры работы программы</h3>
 
 <p>JSON</p>
-<a href="https://asciinema.org/a/7OAEThCV9ZcvnfBRSBmNe1SDS" target="_blank"><img src="https://asciinema.org/a/7OAEThCV9ZcvnfBRSBmNe1SDS.svg" /></a>
-
+<p><a href="https://asciinema.org/a/7OAEThCV9ZcvnfBRSBmNe1SDS" target="_blank"><img src="https://asciinema.org/a/7OAEThCV9ZcvnfBRSBmNe1SDS.svg" /></a></p>
 
 <p>YAML</p>
-<a href="https://asciinema.org/a/to6aDzXwrKikva51Hmdisc0r3" target="_blank"><img src="https://asciinema.org/a/to6aDzXwrKikva51Hmdisc0r3.svg" /></a>
+<p><a href="https://asciinema.org/a/to6aDzXwrKikva51Hmdisc0r3" target="_blank"><img src="https://asciinema.org/a/to6aDzXwrKikva51Hmdisc0r3.svg" /></a></p>
 
 <p>INI</p>
-<a href="https://asciinema.org/a/z4fi7pCMEgV6euALrRpfBQpFc" target="_blank"><img src="https://asciinema.org/a/z4fi7pCMEgV6euALrRpfBQpFc.svg" /></a>
+<p><a href="https://asciinema.org/a/z4fi7pCMEgV6euALrRpfBQpFc" target="_blank"><img src="https://asciinema.org/a/z4fi7pCMEgV6euALrRpfBQpFc.svg" /></a></p>
+
+<h3>Текстовый вывод</h3>
+
+<p><a href="https://asciinema.org/a/0Jg6iO3043g5WyLwCE9KGJesV" target="_blank"><img src="https://asciinema.org/a/0Jg6iO3043g5WyLwCE9KGJesV.svg" /></a></p>
+
+<h3>Вывод в формате JSON</h3>
+
+<p><a href="https://asciinema.org/a/XV88TXbZHS7A7ZOZnKNVRO2L8" target="_blank"><img src="https://asciinema.org/a/XV88TXbZHS7A7ZOZnKNVRO2L8.svg" /></a></p>
