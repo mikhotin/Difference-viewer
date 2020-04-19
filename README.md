@@ -9,6 +9,8 @@
 
 <h3>Примеры работы программы</h3>
 
+<p><a href="https://asciinema.org/a/aw243kj1JreQ6kxMyMv4Ee6P0" target="_blank"><img src="https://asciinema.org/a/aw243kj1JreQ6kxMyMv4Ee6P0.svg" /></a></p>
+
 <p>JSON</p>
 <p><a href="https://asciinema.org/a/7OAEThCV9ZcvnfBRSBmNe1SDS" target="_blank"><img src="https://asciinema.org/a/7OAEThCV9ZcvnfBRSBmNe1SDS.svg" /></a></p>
 
