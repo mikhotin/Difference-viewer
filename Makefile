@@ -12,3 +12,6 @@ test-coverage:
 
 install:
 	npm install
+
+build:
+	npm build
