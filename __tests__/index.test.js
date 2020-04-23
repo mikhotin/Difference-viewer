@@ -1,5 +1,5 @@
 import path from 'path';
-import genDiff from '../src/gendiff';
+import genDiff from '../src/index';
 import data from '../__fixtures__/data';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
