@@ -10,28 +10,28 @@ const hasKeyBoth = (obj1, obj2, key) => _.has(obj1, key) && _.has(obj2, key);
 const hasEqualsValue = (obj1, obj2, key) => obj1[key] === obj2[key];
 const isValueObject = (obj1, obj2, key) => _.isObject(obj1[key]) && _.isObject(obj2[key]);
 const createAst = (obj1, obj2) => {
-  const uniqKeys = _.uniq([..._.keys(obj1), ..._.keys(obj2)]).sort();
-  const ast = uniqKeys.reduce((acc, key) => {
+  const keys = _.union([..._.keys(obj1), ..._.keys(obj2)]).sort();
+  const iter = (key) => {
     if (hasKeyBoth(obj1, obj2, key)) {
       if (isValueObject(obj1, obj2, key)) {
-        acc.push({ type: 'unchanged', key, children: createAst(obj1[key], obj2[key]) });
-      } else if (hasEqualsValue(obj1, obj2, key)) {
-        acc.push({ type: 'unchanged', key, value: obj1[key] });
-      } else {
-        acc.push({
-          type: 'changed', key, value: obj2[key], beforeValue: obj1[key],
-        });
+        return { type: 'unchanged', key, children: createAst(obj1[key], obj2[key]) };
       }
-    } else {
-      if ((_.has(obj1, key) && !_.has(obj2, key))) {
-        acc.push({ type: 'deleted', key, value: obj1[key] });
+      if (hasEqualsValue(obj1, obj2, key)) {
+        return { type: 'unchanged', key, value: obj1[key] };
       }
-      if ((!_.has(obj1, key) && _.has(obj2, key))) {
-        acc.push({ type: 'added', key, value: obj2[key] });
-      }
+      return {
+        type: 'changed', key, value: obj2[key], beforeValue: obj1[key],
+      };
     }
-    return acc;
-  }, []);
+
+    if ((_.has(obj1, key) && !_.has(obj2, key))) {
+      return { type: 'deleted', key, value: obj1[key] };
+    }
+
+    return { type: 'added', key, value: obj2[key] };
+  };
+
+  const ast = keys.map((key) => iter(key));
 
   return ast;
 };
