@@ -37,13 +37,13 @@ const createAst = (obj1, obj2) => {
 };
 
 const genDiff = (filepath1, filepath2, formatType = 'nested') => {
-  const firstFiile = readFile(getFullPath(filepath1));
-  const secondFile = readFile(getFullPath(filepath2));
-  const extensionFirstFile = path.extname(getFullPath(filepath1)).slice(1);
-  const extensionSecondFile = path.extname(getFullPath(filepath2)).slice(1);
+  const content1 = readFile(getFullPath(filepath1));
+  const content2 = readFile(getFullPath(filepath2));
+  const extensionName1 = path.extname(getFullPath(filepath1)).slice(1);
+  const extensionName2 = path.extname(getFullPath(filepath2)).slice(1);
 
-  const data1 = parse(firstFiile, extensionFirstFile);
-  const data2 = parse(secondFile, extensionSecondFile);
+  const data1 = parse(content1, extensionName1);
+  const data2 = parse(content2, extensionName2);
   const data = createAst(data1, data2);
 
   return format(data, formatType);
