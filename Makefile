@@ -14,4 +14,4 @@ install:
 	npm install
 
 build:
-	npm build
+	npm run build

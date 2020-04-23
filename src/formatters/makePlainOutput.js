@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const makeStr = (obj, type, path) => {
+const makeStr = (obj, type, pathToKey) => {
   const formatValue = (val) => {
     if (_.isObject(val)) {
       return '[complex value]';
@@ -12,9 +12,9 @@ const makeStr = (obj, type, path) => {
   };
   const { value, beforeValue } = obj;
   const str = {
-    changed: `Property '${path}' was ${type} from ${formatValue(beforeValue)} to ${formatValue(value)}`,
-    deleted: `Property '${path}' was ${type}`,
-    added: `Property '${path}' was ${type} with value: ${formatValue(value)}`,
+    changed: `Property '${pathToKey}' was ${type} from ${formatValue(beforeValue)} to ${formatValue(value)}`,
+    deleted: `Property '${pathToKey}' was ${type}`,
+    added: `Property '${pathToKey}' was ${type} with value: ${formatValue(value)}`,
   };
   return str[type];
 };
