@@ -34,7 +34,7 @@ const makeNestedOutput = (ast, deep = 1) => {
     const {
       type, key, value, children, beforeValue,
     } = list;
-    const newValue = _.has(list, 'children') ? render(children, deep + 1) : value;
+    const newValue = _.has(list, 'children') ? makeNestedOutput(children, deep + 1) : value;
     switch (type) {
       case 'unchanged':
         result.push(`${makeWhitespaces(type, deep)}${key}: ${newValue}`);
