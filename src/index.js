@@ -4,8 +4,8 @@ import fs from 'fs';
 import parse from './parsers/parsers';
 import format from './formatters';
 
-const getFullPath = (filename) => path.resolve(process.cwd(), filename);
-const readFile = (filepath) => fs.readFileSync(getFullPath(filepath), 'utf-8');
+const getFullPath = (filepath) => path.resolve(process.cwd(), filepath);
+const readFile = (filename) => fs.readFileSync(getFullPath(filename), 'utf-8');
 const hasKeyBoth = (obj1, obj2, key) => _.has(obj1, key) && _.has(obj2, key);
 const hasEqualsValue = (obj1, obj2, key) => obj1[key] === obj2[key];
 const isValueObject = (obj1, obj2, key) => _.isObject(obj1[key]) && _.isObject(obj2[key]);
