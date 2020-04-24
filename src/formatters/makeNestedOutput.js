@@ -27,7 +27,7 @@ const stringify = (param, deep) => {
   return param;
 };
 
-const render = (ast, deep = 1) => {
+const makeNestedOutput = (ast, deep = 1) => {
   const result = [];
   result.push('{');
   ast.map((list) => {
@@ -60,4 +60,4 @@ const render = (ast, deep = 1) => {
   return result.join('\n');
 };
 
-export default render;
+export default makeNestedOutput;

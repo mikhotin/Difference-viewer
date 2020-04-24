@@ -1,9 +1,9 @@
 import makePlainOutput from './makePlainOutput';
-import render from './render';
+import makeNestedOutput from './makeNestedOutput';
 
 const formatters = {
   plain: makePlainOutput,
-  nested: render,
+  nested: makeNestedOutput,
   json: JSON.stringify,
 };
 
