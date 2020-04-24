@@ -2,9 +2,9 @@ import makePlainOutput from './makePlainOutput';
 import render from './render';
 
 const formatters = {
-  plain: (data) => makePlainOutput(data),
-  nested: (data) => render(data, 1),
-  json: (data) => JSON.stringify(data),
+  plain: makePlainOutput,
+  nested: render,
+  json: JSON.stringify,
 };
 
 const format = (data, type) => formatters[type](data);

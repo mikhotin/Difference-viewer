@@ -27,7 +27,7 @@ const stringify = (param, deep) => {
   return param;
 };
 
-const render = (ast, deep) => {
+const render = (ast, deep = 1) => {
   const result = [];
   result.push('{');
   ast.map((list) => {
