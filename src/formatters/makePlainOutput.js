@@ -11,34 +11,28 @@ const makeStr = (obj, type, pathToKey) => {
     return val;
   };
   const { value, beforeValue } = obj;
-  const str = {
+  const strTypes = {
     changed: `Property '${pathToKey}' was ${type} from ${formatValue(beforeValue)} to ${formatValue(value)}`,
     deleted: `Property '${pathToKey}' was ${type}`,
     added: `Property '${pathToKey}' was ${type} with value: ${formatValue(value)}`,
   };
-  return str[type];
+  return strTypes[type];
 };
 
 const makePlainOutput = (ast) => {
-  const result = [];
-  const makeOutput = (tree) => {
-    const iter = (list, acc) => {
-      const { type, key, children } = list;
-      if (_.has(list, 'children')) {
-        children.map((item) => iter(item, [...acc, key]));
-      }
-      if (type !== 'unchanged') {
-        const pathToKey = [...acc, key].join('.');
-        const str = makeStr(list, type, pathToKey);
-        result.push(str);
-      }
-    };
-    return iter(tree, []);
+  const iter = (list, acc) => {
+    const { type, key, children } = list;
+    if (_.has(list, 'children')) {
+      return children.map((item) => iter(item, [...acc, key]));
+    }
+    const pathToKey = [...acc, key].join('.');
+    return makeStr(list, type, pathToKey);
   };
 
-  ast.map((item) => makeOutput(item));
+  const result = _.flattenDeep(ast.map((item) => iter(item, [])));
+  const filteredList = result.filter((item) => item);
 
-  return result.join('\n');
+  return filteredList.join('\n');
 };
 
 export default makePlainOutput;
