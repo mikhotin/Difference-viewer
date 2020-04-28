@@ -14,50 +14,41 @@ const makeWhitespaces = (type, deep) => {
   return ' '.repeat(whiteSpacesCount[deep]);
 };
 
-const stringify = (param, deep) => {
-  if (_.isObject(param)) {
-    const result = [];
-    const keys = _.keys(param);
-    result.push('{');
-    keys.map((key) => result.push(`${makeWhitespaces('unchanged', deep)}${key}: ${param[key]}`));
-    const whiteSpace = makeWhitespaces('', deep).slice(0, -2);
-    result.push(`${whiteSpace}}`);
-    return result.join('\n');
+const stringify = (val, deep) => {
+  if (_.isObject(val)) {
+    const whiteSpace = makeWhitespaces('unchanged', deep);
+    const key = _.keys(val);
+    return `{\n${whiteSpace}${key}: ${val[key]}\n${whiteSpace.slice(0, -4)}}`;
   }
-  return param;
+  return val;
 };
 
-const makeNestedOutput = (ast, deep = 1) => {
-  const result = [];
-  result.push('{');
-  ast.map((list) => {
+const makeNestedOutput = (ast) => {
+  const iter = (element, deep = 1) => {
     const {
-      type, key, value, children, beforeValue,
-    } = list;
-    const newValue = _.has(list, 'children') ? makeNestedOutput(children, deep + 1) : value;
+      type, key, value, beforeValue, children,
+    } = element;
+    const whiteSpace = makeWhitespaces(type, deep);
+    if (_.has(element, 'children')) {
+      const val = children.map((item) => iter(item, deep + 1)).join('\n');
+      return `${whiteSpace}${key}: {\n${val}\n${whiteSpace}}`;
+    }
     switch (type) {
       case 'unchanged':
-        result.push(`${makeWhitespaces(type, deep)}${key}: ${newValue}`);
-        break;
+        return `${whiteSpace}${key}: ${(stringify(value, deep + 1))}`;
       case 'changed':
-        result.push(`${makeWhitespaces(type, deep)}+ ${key}: ${stringify(value, deep + 1)}`);
-        result.push(`${makeWhitespaces(type, deep)}- ${key}: ${stringify(beforeValue, deep + 1)}`);
-        break;
-      case 'deleted':
-        result.push(`${makeWhitespaces(type, deep)}- ${key}: ${stringify(value, deep + 1)}`);
-        break;
+        return [`${whiteSpace}+ ${key}: ${stringify(value, deep + 1)}`,
+          `${whiteSpace}- ${key}: ${stringify(beforeValue, deep + 1)}`].join('\n');
       case 'added':
-        result.push(`${makeWhitespaces(type, deep)}+ ${key}: ${stringify(value, deep + 1)}`);
-        break;
+        return `${whiteSpace}+ ${key}: ${stringify(value, deep + 1)}`;
+      case 'deleted':
+        return `${whiteSpace}- ${key}: ${stringify(value, deep + 1)}`;
       default:
         throw new Error(`Unknown type: ${type}!`);
     }
-    return true;
-  });
-
-  const whiteSpace = makeWhitespaces('', deep).slice(0, -2);
-  result.push(`${whiteSpace}}`);
-  return result.join('\n');
+  };
+  const result = ast.map((item) => iter(item)).join('\n');
+  return `{\n${result}\n}`;
 };
 
 export default makeNestedOutput;
