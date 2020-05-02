@@ -1,17 +1,36 @@
 import path from 'path';
+import fs from 'fs';
 import genDiff from '../src/index';
-import data from '../__fixtures__/data';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+const fileFormats = ['json', 'yaml', 'ini'];
+let outputFormat;
+let result;
 
-test('diff json', () => {
-  expect(genDiff(getFixturePath('before.json'), getFixturePath('after.json'))).toEqual(data);
+describe('nested output', () => {
+  outputFormat = 'nested';
+  result = readFile('nestedOutput.txt');
+  test.each(fileFormats)(
+    '%s',
+    (format) => expect(genDiff(getFixturePath(`before.${format}`), getFixturePath(`after.${format}`), outputFormat)).toEqual(result),
+  );
 });
 
-test('diff yaml', () => {
-  expect(genDiff(getFixturePath('before.yaml'), getFixturePath('after.yaml'))).toEqual(data);
+describe('plain output', () => {
+  outputFormat = 'plain';
+  result = readFile('plainOutput.txt');
+  test.each(fileFormats)(
+    '%s',
+    (format) => expect(genDiff(getFixturePath(`before.${format}`), getFixturePath(`after.${format}`), outputFormat)).toEqual(result),
+  );
 });
 
-test('diff ini', () => {
-  expect(genDiff(getFixturePath('before.ini'), getFixturePath('after.ini'))).toEqual(data);
+describe('json output', () => {
+  outputFormat = 'json';
+  result = readFile('jsonOutput.txt');
+  test.each(fileFormats)(
+    '%s',
+    (format) => expect(genDiff(getFixturePath(`before.${format}`), getFixturePath(`after.${format}`), outputFormat)).toEqual(result),
+  );
 });

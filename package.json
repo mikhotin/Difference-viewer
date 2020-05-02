@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "npx jest index.test.js",
+    "test": "npx jest index.test.js --watch",
     "test-coverage": "npx jest index.test.js --coverage",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
