@@ -1,5 +1,5 @@
-import makePlainOutput from './makePlainOutput';
-import makeNestedOutput from './makeNestedOutput';
+import makePlainOutput from './plainOutput';
+import makeNestedOutput from './nestedOutput';
 
 const formatters = {
   plain: makePlainOutput,
