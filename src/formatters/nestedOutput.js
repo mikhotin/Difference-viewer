@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-const makeWhitespaces = (type, deep) => {
+const makeWhitespaces = (type, depth) => {
   if (type === 'unchanged') {
-    return ' '.repeat(deep * 4);
+    return ' '.repeat(depth * 4);
   }
 
   const whiteSpacesCount = {
@@ -11,12 +11,12 @@ const makeWhitespaces = (type, deep) => {
     3: 10,
   };
 
-  return ' '.repeat(whiteSpacesCount[deep]);
+  return ' '.repeat(whiteSpacesCount[depth]);
 };
 
-const stringify = (val, deep) => {
+const stringify = (val, depth) => {
   if (_.isObject(val)) {
-    const whiteSpace = makeWhitespaces('unchanged', deep);
+    const whiteSpace = makeWhitespaces('unchanged', depth);
     const key = _.keys(val);
     return `{\n${whiteSpace}${key}: ${val[key]}\n${whiteSpace.slice(0, -4)}}`;
   }
@@ -24,25 +24,25 @@ const stringify = (val, deep) => {
 };
 
 const makeNestedOutput = (ast) => {
-  const iter = (element, deep = 1) => {
+  const iter = (element, depth = 1) => {
     const {
       type, key, value, beforeValue, children,
     } = element;
-    const whiteSpace = makeWhitespaces(type, deep);
+    const whiteSpace = makeWhitespaces(type, depth);
     if (_.has(element, 'children')) {
-      const val = children.map((item) => iter(item, deep + 1)).join('\n');
+      const val = children.map((item) => iter(item, depth + 1)).join('\n');
       return `${whiteSpace}${key}: {\n${val}\n${whiteSpace}}`;
     }
     switch (type) {
       case 'unchanged':
-        return `${whiteSpace}${key}: ${(stringify(value, deep + 1))}`;
+        return `${whiteSpace}${key}: ${(stringify(value, depth + 1))}`;
       case 'changed':
-        return [`${whiteSpace}+ ${key}: ${stringify(value, deep + 1)}`,
-          `${whiteSpace}- ${key}: ${stringify(beforeValue, deep + 1)}`].join('\n');
+        return [`${whiteSpace}+ ${key}: ${stringify(value, depth + 1)}`,
+          `${whiteSpace}- ${key}: ${stringify(beforeValue, depth + 1)}`].join('\n');
       case 'added':
-        return `${whiteSpace}+ ${key}: ${stringify(value, deep + 1)}`;
+        return `${whiteSpace}+ ${key}: ${stringify(value, depth + 1)}`;
       case 'deleted':
-        return `${whiteSpace}- ${key}: ${stringify(value, deep + 1)}`;
+        return `${whiteSpace}- ${key}: ${stringify(value, depth + 1)}`;
       default:
         throw new Error(`Unknown type: ${type}!`);
     }
