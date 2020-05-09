@@ -23,7 +23,7 @@ const createAst = (obj1, obj2) => {
     }
 
     if (isValueObject(obj1, obj2, key)) {
-      return { type: 'unchanged', key, children: createAst(obj1[key], obj2[key]) };
+      return { type: 'ast', key, children: createAst(obj1[key], obj2[key]) };
     }
 
     return {
