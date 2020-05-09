@@ -2,7 +2,16 @@ import _ from 'lodash';
 
 const makeWhitespaces = (depth, spaceCount) => {
   if (spaceCount === undefined) {
-    return ' '.repeat(depth);
+    switch (depth) {
+      case 1:
+        return ' '.repeat(2);
+      case 2:
+        return ' '.repeat(6);
+      case 3:
+        return ' '.repeat(10);
+      default:
+        throw new Error(`Unknown depth: ${depth}!`);
+    }
   }
   return ' '.repeat(depth * spaceCount);
 };
@@ -16,18 +25,12 @@ const stringify = (val, depth) => {
   return val;
 };
 
-const whiteSpacesCount = {
-  1: 2,
-  2: 6,
-  3: 10,
-};
-
 const makeNestedOutput = (ast, depth = 0) => {
   const iter = (element, currentDepth) => {
     const {
       type, key, value, beforeValue, children,
     } = element;
-    const whiteSpace = (type === 'ast' || type === 'unchanged') ? makeWhitespaces(currentDepth, 4) : makeWhitespaces(whiteSpacesCount[currentDepth]);
+    const whiteSpace = (type === 'ast' || type === 'unchanged') ? makeWhitespaces(currentDepth, 4) : makeWhitespaces(currentDepth);
     switch (type) {
       case 'ast':
         return `${whiteSpace}${key}: ${makeNestedOutput(children, currentDepth)}`;
