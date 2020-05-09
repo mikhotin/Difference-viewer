@@ -10,15 +10,15 @@ const isValueObject = (obj1, obj2, key) => _.isObject(obj1[key]) && _.isObject(o
 const createAst = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2)).sort();
   const iter = (key) => {
-    if (obj1[key] === obj2[key]) {
+    if ((_.has(obj1, key) && _.has(obj2, key)) && (obj1[key] === obj2[key])) {
       return { type: 'unchanged', key, value: obj1[key] };
     }
 
-    if ((_.has(obj1, key) && !_.has(obj2, key))) {
+    if (!_.has(obj2, key)) {
       return { type: 'deleted', key, value: obj1[key] };
     }
 
-    if ((!_.has(obj1, key) && _.has(obj2, key))) {
+    if (!_.has(obj1, key)) {
       return { type: 'added', key, value: obj2[key] };
     }
 
