@@ -8,13 +8,10 @@ const fileFormats = ['json', 'yaml', 'ini'];
 const outputTypes = ['nested', 'plain', 'json'];
 
 describe.each(outputTypes)('%s output', (typeOutput) => {
-  test.each(fileFormats)(
-    '%s format',
-    (format) => {
-      const filepath1 = getFixturePath(`before.${format}`);
-      const filepath2 = getFixturePath(`after.${format}`);
-      const expected = readFile(`${typeOutput}Output.txt`);
-      expect(genDiff(filepath1, filepath2, `${typeOutput}`)).toEqual(expected);
-    },
-  );
+  test.each(fileFormats)('%s format', (format) => {
+    const filepath1 = getFixturePath(`before.${format}`);
+    const filepath2 = getFixturePath(`after.${format}`);
+    const expected = readFile(`${typeOutput}Output.txt`);
+    expect(genDiff(filepath1, filepath2, `${typeOutput}`)).toEqual(expected);
+  });
 });
