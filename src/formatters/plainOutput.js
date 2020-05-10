@@ -22,7 +22,7 @@ const makeStr = (obj, type, pathToKey) => {
 const makePlainOutput = (ast) => {
   const iter = (list, acc) => {
     const { type, key, children } = list;
-    if (_.has(list, 'children')) {
+    if (type === 'ast') {
       return children.map((item) => iter(item, [...acc, key]));
     }
     const pathToKey = [...acc, key].join('.');
