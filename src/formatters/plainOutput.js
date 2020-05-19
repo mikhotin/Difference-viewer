@@ -10,9 +10,9 @@ const makeStr = (obj, type, pathToKey) => {
     }
     return val;
   };
-  const { value, beforeValue } = obj;
+  const { value, valueBefore, valueAfter } = obj;
   const strTypes = {
-    changed: `Property '${pathToKey}' was changed from ${formatValue(beforeValue)} to ${formatValue(value)}`,
+    changed: `Property '${pathToKey}' was changed from ${formatValue(valueBefore)} to ${formatValue(valueAfter)}`,
     deleted: `Property '${pathToKey}' was deleted`,
     added: `Property '${pathToKey}' was added with value: ${formatValue(value)}`,
   };

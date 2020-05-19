@@ -6,7 +6,6 @@ import format from './formatters';
 
 const getFullPath = (filepath) => path.resolve(process.cwd(), filepath);
 const readFile = (filename) => fs.readFileSync(getFullPath(filename), 'utf-8');
-const isValueObject = (obj1, obj2, key) => _.isObject(obj1[key]) && _.isObject(obj2[key]);
 const createAst = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2)).sort();
   const iter = (key) => {
@@ -18,16 +17,16 @@ const createAst = (obj1, obj2) => {
       return { type: 'added', key, value: obj2[key] };
     }
 
-    if (isValueObject(obj1, obj2, key)) {
+    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
       return { type: 'ast', key, children: createAst(obj1[key], obj2[key]) };
     }
 
-    if ((_.has(obj1, key) && _.has(obj2, key)) && (obj1[key] === obj2[key])) {
+    if (obj1[key] === obj2[key]) {
       return { type: 'unchanged', key, value: obj1[key] };
     }
 
     return {
-      type: 'changed', key, value: obj2[key], beforeValue: obj1[key],
+      type: 'changed', key, valueAfter: obj2[key], valueBefore: obj1[key],
     };
   };
 

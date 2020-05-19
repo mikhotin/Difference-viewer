@@ -27,7 +27,7 @@ const stringify = (val, depth) => {
 const makeNestedOutput = (ast, depth = 0) => {
   const iter = (element, currentDepth) => {
     const {
-      type, key, value, beforeValue, children,
+      type, key, value, valueBefore, valueAfter, children,
     } = element;
     const whiteSpace = (type === 'ast' || type === 'unchanged') ? makeWhitespaces(currentDepth, 4) : makeWhitespaces(currentDepth, 2);
     switch (type) {
@@ -36,8 +36,8 @@ const makeNestedOutput = (ast, depth = 0) => {
       case 'unchanged':
         return `${whiteSpace}${key}: ${(stringify(value, currentDepth + 1))}`;
       case 'changed':
-        return [`  ${whiteSpace}+ ${key}: ${stringify(value, currentDepth + 1)}`,
-          `  ${whiteSpace}- ${key}: ${stringify(beforeValue, currentDepth + 1)}`].join('\n');
+        return [`  ${whiteSpace}+ ${key}: ${stringify(valueAfter, currentDepth + 1)}`,
+          `  ${whiteSpace}- ${key}: ${stringify(valueBefore, currentDepth + 1)}`].join('\n');
       case 'added':
         return `  ${whiteSpace}+ ${key}: ${stringify(value, currentDepth + 1)}`;
       case 'deleted':
