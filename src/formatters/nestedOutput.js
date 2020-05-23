@@ -1,18 +1,13 @@
 import _ from 'lodash';
 
-const makeWhitespaces = (depth, spaceCount) => {
-  if (spaceCount === 4) {
-    return ' '.repeat(depth * spaceCount);
-  }
-  switch (depth) {
-    case 1:
-      return ' '.repeat(0);
+const makeIndent = (depth, indentType) => {
+  switch (indentType) {
     case 2:
-      return ' '.repeat(depth * spaceCount);
-    case 3:
-      return ' '.repeat((depth * spaceCount) + 2);
+      return `${'    '.repeat(depth - 1)}${' '.repeat(indentType)}`;
+    case 4:
+      return ' '.repeat(depth * indentType);
     default:
-      throw new Error(`Unknown depth: ${depth}!`);
+      throw new Error(`Unknown indentType: ${indentType}!`);
   }
 };
 
@@ -21,7 +16,7 @@ const stringify = (val, depth) => {
     return val;
   }
   const key = _.keys(val);
-  return `{\n${makeWhitespaces(depth, 4)}${key}: ${val[key]}\n${makeWhitespaces(depth, 2)}}`;
+  return `{\n${makeIndent(depth + 1, 4)}${key}: ${val[key]}\n${makeIndent(depth, 4)}}`;
 };
 
 const makeNestedOutput = (ast, depth = 0) => {
@@ -29,25 +24,25 @@ const makeNestedOutput = (ast, depth = 0) => {
     const {
       type, key, value, valueBefore, valueAfter, children,
     } = element;
-    const whiteSpace = (type === 'ast' || type === 'unchanged') ? makeWhitespaces(currentDepth, 4) : makeWhitespaces(currentDepth, 2);
+
     switch (type) {
       case 'ast':
-        return `${whiteSpace}${key}: ${makeNestedOutput(children, currentDepth)}`;
+        return `${makeIndent(currentDepth, 4)}${key}: ${makeNestedOutput(children, currentDepth)}`;
       case 'unchanged':
-        return `${whiteSpace}${key}: ${(stringify(value, currentDepth + 1))}`;
+        return `${makeIndent(currentDepth, 4)}${key}: ${(stringify(value, currentDepth))}`;
       case 'changed':
-        return [`  ${whiteSpace}+ ${key}: ${stringify(valueAfter, currentDepth + 1)}`,
-          `  ${whiteSpace}- ${key}: ${stringify(valueBefore, currentDepth + 1)}`].join('\n');
+        return [`${makeIndent(currentDepth, 2)}+ ${key}: ${stringify(valueAfter, currentDepth)}`,
+          `${makeIndent(currentDepth, 2)}- ${key}: ${stringify(valueBefore, currentDepth)}`].join('\n');
       case 'added':
-        return `  ${whiteSpace}+ ${key}: ${stringify(value, currentDepth + 1)}`;
+        return `${makeIndent(currentDepth, 2)}+ ${key}: ${stringify(value, currentDepth)}`;
       case 'deleted':
-        return `  ${whiteSpace}- ${key}: ${stringify(value, currentDepth + 1)}`;
+        return `${makeIndent(currentDepth, 2)}- ${key}: ${stringify(value, currentDepth)}`;
       default:
         throw new Error(`Unknown type: ${type}!`);
     }
   };
   const result = ast.map((item) => iter(item, depth + 1)).join('\n');
-  return `{\n${result}\n${makeWhitespaces(depth, 4)}}`;
+  return `{\n${result}\n${makeIndent(depth, 4)}}`;
 };
 
 export default makeNestedOutput;

@@ -5,10 +5,7 @@ const makeStr = (obj, type, pathToKey) => {
     if (_.isObject(val)) {
       return '[complex value]';
     }
-    if (_.isString(val)) {
-      return `'${val}'`;
-    }
-    return val;
+    return _.isString(val) ? `'${val}'` : val;
   };
   const { value, valueBefore, valueAfter } = obj;
   const strTypes = {
