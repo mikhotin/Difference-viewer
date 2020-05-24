@@ -3,7 +3,7 @@ import _ from 'lodash';
 const makeIndent = (depth, indentType) => {
   switch (indentType) {
     case 2:
-      return `${'    '.repeat(depth - 1)}${' '.repeat(indentType)}`;
+      return ' '.repeat((depth * 4) - indentType);
     case 4:
       return ' '.repeat(depth * indentType);
     default:
