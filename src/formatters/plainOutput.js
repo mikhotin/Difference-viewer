@@ -27,9 +27,7 @@ const makePlainOutput = (ast, acc = []) => {
   };
 
   const result = _.flattenDeep(ast.map((item) => iter(item, acc)));
-  const filteredList = result.filter((item) => item);
-
-  return filteredList.join('\n');
+  return result.filter((item) => item).join('\n');
 };
 
 export default makePlainOutput;
