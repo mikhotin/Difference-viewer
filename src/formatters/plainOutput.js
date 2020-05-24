@@ -16,17 +16,17 @@ const makeStr = (obj, type, pathToKey) => {
   return strTypes[type];
 };
 
-const makePlainOutput = (ast) => {
-  const iter = (list, acc) => {
+const makePlainOutput = (ast, acc = []) => {
+  const iter = (list, acc2) => {
     const { type, key, children } = list;
     if (type === 'ast') {
-      return children.map((item) => iter(item, [...acc, key]));
+      return makePlainOutput(children, [...acc2, key]);
     }
-    const pathToKey = [...acc, key].join('.');
+    const pathToKey = [...acc2, key].join('.');
     return makeStr(list, type, pathToKey);
   };
 
-  const result = _.flattenDeep(ast.map((item) => iter(item, [])));
+  const result = _.flattenDeep(ast.map((item) => iter(item, acc)));
   const filteredList = result.filter((item) => item);
 
   return filteredList.join('\n');
