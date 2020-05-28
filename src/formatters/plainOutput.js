@@ -17,17 +17,25 @@ const makeStr = (obj, type, pathToKey) => {
 };
 
 const makePlainOutput = (ast, acc = []) => {
-  const iter = (list, acc2) => {
+  const iter = (list) => {
     const { type, key, children } = list;
-    if (type === 'ast') {
-      return makePlainOutput(children, [...acc2, key]);
+    const pathToKey = [...acc, key].join('.');
+    switch (type) {
+      case 'ast':
+        return makePlainOutput(children, [...acc, key]);
+      case 'changed':
+      case 'deleted':
+      case 'added':
+        return makeStr(list, type, pathToKey);
+      case 'unchanged':
+        return 'unchanged';
+      default:
+        throw new Error(`Unknown type: ${type}!`);
     }
-    const pathToKey = [...acc2, key].join('.');
-    return makeStr(list, type, pathToKey);
   };
 
-  const result = _.flattenDeep(ast.map((item) => iter(item, acc)));
-  return result.filter((item) => item).join('\n');
+  const result = _.flattenDeep(ast.map((item) => iter(item)));
+  return result.filter((item) => item !== 'unchanged').join('\n');
 };
 
 export default makePlainOutput;
