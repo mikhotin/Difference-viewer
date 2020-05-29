@@ -1,13 +1,15 @@
 import _ from 'lodash';
 
-const makeStr = (obj, type, pathToKey) => {
+const makeStr = (obj, pathToKey) => {
   const formatValue = (val) => {
     if (_.isObject(val)) {
       return '[complex value]';
     }
     return _.isString(val) ? `'${val}'` : val;
   };
-  const { value, valueBefore, valueAfter } = obj;
+  const {
+    value, valueBefore, valueAfter, type,
+  } = obj;
   const strTypes = {
     changed: `Property '${pathToKey}' was changed from ${formatValue(valueBefore)} to ${formatValue(valueAfter)}`,
     deleted: `Property '${pathToKey}' was deleted`,
@@ -26,7 +28,7 @@ const makePlainOutput = (ast, acc = []) => {
       case 'changed':
       case 'deleted':
       case 'added':
-        return makeStr(list, type, pathToKey);
+        return makeStr(list, pathToKey);
       case 'unchanged':
         return 'unchanged';
       default:
