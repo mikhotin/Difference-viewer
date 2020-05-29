@@ -1,36 +1,30 @@
 import _ from 'lodash';
 
-const makeStr = (obj, pathToKey) => {
-  const formatValue = (val) => {
-    if (_.isObject(val)) {
-      return '[complex value]';
-    }
-    return _.isString(val) ? `'${val}'` : val;
-  };
-  const {
-    value, valueBefore, valueAfter, type,
-  } = obj;
-  const strTypes = {
-    changed: `Property '${pathToKey}' was changed from ${formatValue(valueBefore)} to ${formatValue(valueAfter)}`,
-    deleted: `Property '${pathToKey}' was deleted`,
-    added: `Property '${pathToKey}' was added with value: ${formatValue(value)}`,
-  };
-  return strTypes[type];
+const formatValue = (val) => {
+  if (_.isObject(val)) {
+    return '[complex value]';
+  }
+  return _.isString(val) ? `'${val}'` : val;
 };
 
 const makePlainOutput = (ast, acc = []) => {
   const iter = (list) => {
-    const { type, key, children } = list;
+    const {
+      type, key, children, value, valueBefore, valueAfter,
+    } = list;
     const pathToKey = [...acc, key].join('.');
+
     switch (type) {
       case 'ast':
         return makePlainOutput(children, [...acc, key]);
-      case 'changed':
-      case 'deleted':
-      case 'added':
-        return makeStr(list, pathToKey);
       case 'unchanged':
         return 'unchanged';
+      case 'changed':
+        return `Property '${pathToKey}' was changed from ${formatValue(valueBefore)} to ${formatValue(valueAfter)}`;
+      case 'added':
+        return `Property '${pathToKey}' was added with value: ${formatValue(value)}`;
+      case 'deleted':
+        return `Property '${pathToKey}' was deleted`;
       default:
         throw new Error(`Unknown type: ${type}!`);
     }
