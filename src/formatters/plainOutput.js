@@ -34,7 +34,7 @@ const makePlainOutput = (ast, acc = []) => {
     }
   };
 
-  const result = _.flattenDeep(ast.map((item) => iter(item)));
+  const result = ast.map((item) => iter(item));
   return result.filter((item) => item !== 'unchanged').join('\n');
 };
 
